@@ -16,9 +16,14 @@
   along with All Mangas Reader.  If not, see <http://www.gnu.org/licenses/>.
 
  */
-var amrc_repository = "https://ssl10.ovh.net/~allmanga/community/latest_v2/";
-var amrc_root = "https://ssl10.ovh.net/~allmanga/community/";
+var amrc_repository        = "https://community.allmangasreader.com/latest_v2/";
+var amrc_root              = "https://community.allmangasreader.com/latest_v2/";
 var amrc_repository_backup = "https://raw.github.com/AllMangasReader-dev/mirrors/master/";
+
+/*** LOCAL LOADING ***/
+//To enable local loading, you must add "'unsafe-eval'" to "content_security_policy" in the manifest.json. This is not enabled by default due to security reasons.
+//How to use: Put mirror file in js/mirrors/, add filename (without ext) to localMirrors. Reload extension.
+var localMirrors = [];
 
 //##############################################################################
 // Load websites description and code in one array. Do first load if necessary.
@@ -53,6 +58,10 @@ function getMirrorsDescription(callback) {
             });
           });
           break;
+        }
+        if($.inArray(websites[i].objectName, localMirrors) !== -1) {
+          websites[i].jsCode = chrome.extension.getURL('js/mirrors/' + websites[i].objectName + '.js');
+          console.log('Injected local js: '+'js/mirrors/' + websites[i].objectName + '.js');
         }
       }
       if (!mustUpdate) {
@@ -483,7 +492,7 @@ function loadJSFromRepositoryForMirrors(list, pos, input) {
     console.log(input);
     list[pos] = {
       loadedscript : true,
-      error : "Script " + input.mirrorName + " failed to be loaded..."
+      error : "Script " + input.mirrorName + " failed to be loaded...  || "+input.jsCode
     };
   });
 }

@@ -54,7 +54,8 @@ function BSync (_opt) {
         chrome.bookmarks.onCreated.addListener(function (id, _21) {
             var ts;
             if (_21.url && _1e.folder && _1e.folder.id == _21.parentId && (ts = _1e.isValidBookmark(_21))) {
-                (function () {
+                setTimeout(
+                function () {
                     if (_1e.bookmark && (parseInt(_1e.syncedAt) != parseInt(ts)) && (_1e.bookmark.id !== _21.id)) {
                         _1e.stop();
                         _1e.options.debug && console.log("REMOVING AND PROCEESSING ON CREATED");
@@ -64,7 +65,7 @@ function BSync (_opt) {
                     } else {
                         return false
                     }
-                }).delay(800, this)
+                }, 800)
             }
         });
         chrome.bookmarks.onRemoved.addListener(function (id, _24) {

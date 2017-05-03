@@ -437,7 +437,7 @@ function writeNavigation(where, select, res, params) {
 
         var prevUrl = getMirrorScript().previousChapterUrl(selectIns, document, window.location.href);
         if (prevUrl !== null) {
-            var aprev = $("<a id='pChapBtn" + index + "' class='buttonAMR' href='" + prevUrl + "'>Previous</a>");
+            var aprev = $("<a id='pChapBtn" + index + "' class='buttonAMR' href='" + prevUrl + "' onclick='window.location.href = this.href; window.location.reload();'>Previous</a>");
             aprev.appendTo(this);
         }
 
@@ -445,7 +445,7 @@ function writeNavigation(where, select, res, params) {
 
         var nextUrl = getMirrorScript().nextChapterUrl(selectIns, document, window.location.href);
         if (nextUrl !== null) {
-            var anext = $("<a id='nChapBtn" + index + "' class='buttonAMR' href='" + nextUrl + "'>Next</a>");
+            var anext = $("<a id='nChapBtn" + index + "' class='buttonAMR' href='" + nextUrl + "' onclick='window.location.href = this.href; window.location.reload();'>Next</a>");
             anext.appendTo(this);
             jQuery.data(document.body, "nexturltoload", nextUrl);
         }
@@ -998,7 +998,7 @@ function loadImageAMR(where, url, img, pos, res, mode, second) {
     } else {
       setTimeout(function() {
         loadImageAMR(where, url, img, pos, res, mode, true);
-      }, 100);
+      }, 500);
     }
   } else {
     getMirrorScript().getImageFromPageAndWrite(url, img, document, window.location.href);
@@ -1426,10 +1426,10 @@ function setKeys() {
       if (e.which == 83) { //S
         window.scrollBy(0, 40);
       }
-      if (e.which == 107) { //+
+      if (e.which == 107 || e.which == 187) { //+
         zoomin();
       }
-      if (e.which == 109) { //-
+      if (e.which == 109 || e.which == 189) { //-
          zoomout();
       }
       if (e.which == 66) { //b
